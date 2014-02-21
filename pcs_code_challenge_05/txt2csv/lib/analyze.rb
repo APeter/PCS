@@ -1,3 +1,7 @@
+require 'thor'
+
+
+
 #! /usr/bin/env ruby
 
 # This script takes a required option
