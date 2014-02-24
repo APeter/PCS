@@ -8,7 +8,7 @@
 
     @input.each_line do |line|
       histogram = CSV.parse(line, col_sep: '\t')
-      puts histogram[hash_data.to_sym] += 1
+      puts histogram += 1
     end
   end
 
