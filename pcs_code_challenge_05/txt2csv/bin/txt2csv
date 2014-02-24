@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-require 'csv'
 require 'thor'
 require_relative '../lib/analyze.rb'
 
@@ -17,7 +16,7 @@ class Txt2csv < Thor
 
   end
 
-  desc "convert  -p or -s", "creates prefix and suffix histogram"
+  desc "convert  -p and -s", "creates prefix and suffix histogram"
   option :p, :aliases => ['--name-prefix']
   option :s, :aliases => ['--name-suffix']
 
