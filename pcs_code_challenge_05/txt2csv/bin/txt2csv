@@ -4,18 +4,27 @@ require 'thor'
 require_relative '../lib/analyze.rb'
 
 class Txt2csv < Thor
-  class_option :name_prefix, :aliases => :p, :boolean => true
-  class_option :name_suffix, :aliases => :s
-  class_option :input, :aliases => :i
-  class_option :output, :aliases => :o
+  class_option :i
+  class_option :o
   end
 
-  desc ":name_prefix", "creates prefix histogram"
+  desc "analyze { -p | -s }", "creates prefix or suffix histogram"
+  option :p, :aliases => ['--name-prefix'], type => 'boolean'
+  option :s, :aliases => ['--name-suffix'], type => 'boolean'
 
+  def analyze
 
-  def prefix(name)
 
   end
+
+  desc "convert  -p or -s", "creates prefix and suffix histogram"
+  option :p, :aliases => ['--name-prefix']
+  option :s, :aliases => ['--name-suffix']
+
+  def convert
+
+  end
+
 
   def input.source_root
     :input = File.dirname(../lib/raw_customers.txt)
@@ -25,3 +34,4 @@ class Txt2csv < Thor
     output = []
     output << file.new(../lib/prefix_histogram.txt) if options[:name_prefix]
   end
+end
