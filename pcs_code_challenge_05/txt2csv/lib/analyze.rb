@@ -1,15 +1,19 @@
 # put your solution to code challenge 02 here
 # Read the command line argument and set up for either hunting prefixes or suffixes, like this:
-regex_hash = Hash.new(0) 
+regex_hash = Hash.new(0)
 
-case ARGV[0]
+initialize(pre_suf, infile, outfile)
+
+case initialize[0]
   when '-p'
     # set up some regular expression for prefixes
-    
 
-    STDIN.each_line do |line|
+
+    File.open(infile,"r+") do |line|
     	prefix = /^\w+\.?/.match(line).to_s
     	regex_hash["#{prefix}"] += 1
+    File.open(outfile, "w+")
+        puts regex_hash
 
     end
 
@@ -20,9 +24,9 @@ case ARGV[0]
     	suffix = line.scan(/(?!x)([a-z]+\.*)/i).flatten.last
     	regex_hash["#{suffix}"] += 1
     end
-	
-	
-  
+
+
+
   else
     puts "unknown option"
     puts "usage: analyze.rb -p | -s < input_file > output_file"
@@ -38,7 +42,7 @@ regex_hash.each { |name, num| puts "#{name} #{num}" }
 
 
 
-# regex_hash { |reg_out| reg_out << %w{my data here} } 
+# regex_hash { |reg_out| reg_out << %w{my data here} }
 
 # throw away the command line option in ARGV so we can get to STDIN
 

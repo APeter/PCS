@@ -10,23 +10,19 @@ class ThorDemo < Thor
   # declare  options
   # class options apply to all commands
 
-  class_option :v, aliases: ['--verbose'],
-                desc: 'Global option that makes the app chatty',
-                :type => :boolean
-
+  class_option :s, aliases: ['--name_suffix'],
+                desc: 'Global option that makes the app chatty'
   # method options only apply to a particular method
   # The priority option only applys to the list command
 
-  option :p, aliases: ['--priority'],
-                desc: 'Set the priority of the list command',
-              banner: 'priority'
+  class_option :p, aliases: ['--name_prefix'],
+                desc: 'Set the priority of the list command'
 
   desc 'list', 'a command that claims to list all the things but does not'
   def list
-    puts 'this is the List command'
-   if options[:p]
-      puts "the priority option is set to #{options[:p]}"
-    end
+    puts 'txt2csv analyze {--name_prefix | -p} -i textfile.txt -o prefix_histogram.txt
+txt2csv analyze {--name_suffix | -s} -i textfile.txt -o suffix_histogram.txt'
+
     # Can you make this appear? Using -c should cause an error
     if options[:c]
       puts "the case option is set to #{options[:c]}"
@@ -38,7 +34,7 @@ class ThorDemo < Thor
 
   # method options only apply to a particular method
   # The case option only applys to the echo command
-  
+
   option :c, aliases: ['--case'],
                 desc: 'Set the case of the list command',
              default: 'Upper',
@@ -47,9 +43,16 @@ class ThorDemo < Thor
   # commands can be in other classes, but the description must be here
   # note how the arguments are used by thor to determine the command line interface
   desc 'echo things...', 'command that prints one or more things'
-  def echo(*things)
+  def caller(analyze, pre_suf, infile, outfile)
 
-    Commands.echo(options[:c], options[:v], things)
+    case options
+
+    when :p
+      analyze.(options[:p], infile, outfile)
+
+    when :s
+      analyze.(options[:s], infile, outfile)
+    end
 
   end
 
