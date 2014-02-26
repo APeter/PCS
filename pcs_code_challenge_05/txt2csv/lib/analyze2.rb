@@ -1,9 +1,9 @@
-require 'CSV'
+prequire 'CSV'
 require 'spec_helper'
 
 class Analyze
   def initialize(input_file, output_file)
-    @input = File.new(input_file, 'r')
+    @input = File.open(input_file, 'r')
     @output = File.new(output_file, 'w')
     @fix = fix
     Analyze
@@ -18,8 +18,6 @@ class Analyze
   def prefixes
     pref = /^\w+\.?/.match(input_hist[0])
       histogram[pref.to_sym] += 1
-      histogram[|key, value| value).reverse!
-    end
   end
 
   def suffixes
@@ -38,5 +36,6 @@ class Analyze
       parsed_word = histogram
     end
     parsed_word
+  end
   end
 end
