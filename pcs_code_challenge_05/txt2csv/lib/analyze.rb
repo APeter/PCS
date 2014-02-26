@@ -1,55 +1,39 @@
-#! /usr/bin/env ruby
-# This script takes a required option
-#  -p : find and sort prefixes by frequency of occurances
-#  -s : find and sort suffixes by frequency of occurances
-#
-# It reads a text file from STDIN
-# It writes the resulting histogram to STDOUT
-# put your solution to code challenge 02 here
-# Read the command line argument and set up for either hunting prefixes or suffixes, like this:
-regex_hash = Hash.new(0)
+class Analyze
+  def initialize(input_file, output_file)
+    @input = File.new(input_file, 'r')
+    @output = File.new(output_file, 'w')
+    @fix = fix
+    Analyze
+  end
 
-case ARGV[0]
-  when '-p'
-    # set up some regular expression for prefixes
+  def analyze
+    histogram = Hash.new(0)
+    @input.each_line do |line|
+    input_hist = CSV.parse_line(line, col_sep: '\t')
+  end
 
-    STDIN.each_line do |line|
-    	prefix = /^\w+\.?/.match(line).to_s
-    	regex_hash["#{prefix}"] += 1
+  def prefixes
+    pref = /^\w+\.?/.match(input_hist[0])
+      histogram[pref.to_sym] += 1
+      histogram{|key, value| value}.reverse!
     end
+  end
 
-  when '-s'
-    # set up some regular expression for suffixes
+  def suffixes
+    suff = /\w+\.?$/.match(input_hist[0])
+      histogram[suff.to_sym] += 1
+  end
 
-    STDIN.each_line do |line|
-    	suffix = line.scan(/(?!x)([a-z]+\.*)/i).flatten.last
-    	regex_hash["#{suffix}"] += 1
+  histogram = Hash[ histogram.sort_by { |word, count| count }.reverse]
+  histogram.each { |word, count| puts '#{word}  #{count}' }
+
+  def pattern_choice
+    case @fix
+    when '-p'
+      parsed_word = histogram
+    when '-s'
+      parsed_word = histogram
     end
-
-
-  else
-    puts "unknown option"
-    puts "usage: analyze.rb -p | -s < input_file > output_file"
-    exit
+    parsed_word
+  end
 end
-
-regex_hash = Hash[regex_hash.sort_by{ |name, num| num }.reverse]
-
-
-
-
-regex_hash.each { |name, num| puts "#{name} #{num}" }
-
-
-
-# regex_hash { |reg_out| reg_out << %w{my data here} }
-
-# throw away the command line option in ARGV so we can get to STDIN
-
-# go through STDIN line by line
-#   use the regular expression to find the right word
-#   count the word using a hash
-
-# after you've read all the lines, sort the hash so the most frequent words are first
-
-# write the hash to STDIN
