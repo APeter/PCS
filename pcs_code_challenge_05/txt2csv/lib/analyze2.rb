@@ -1,5 +1,5 @@
   def initialize(input_file, output_file)
-    @input = File.open(input_file, 'r')
+    @input = File.new(input_file, 'r')
     @output = File.new(output_file, 'w')
     @fix = fix
     analyze
@@ -14,12 +14,14 @@
   def prefixes
     pref = /^\w+\.?/.match(input_hist[0])
       histogram[pref.to_sym] += 1
+      histogram.reverse!
     end
   end
 
   def suffixes
     suff = /\w+\.?$/.match(input_hist[0])
       histogram[suff.to_sym] += 1
+      histogram.reverse!
     end
   end
 
@@ -31,6 +33,5 @@
       parsed_word = suffixes
     end
     parsed_word
-  end
   end
 end
