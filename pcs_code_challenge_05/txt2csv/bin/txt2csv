@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+require 'thor'
+require_relative '../lib/analyze.rb'
+require_relative '../lib/convert.rb'
+
+class Txt2csv < Thor
+  class_option :i
+  class_option :o
+  end
+
+  desc "analyze { -p | -s }", "creates prefix or suffix histogram"
+  option :p, :aliases => ['--name-prefix'], type => 'boolean'
+  option :s, :aliases => ['--name-suffix'], type => 'boolean'
+
+  def analyze
+    fix = '-p' if options[:p]
+    fix = '-s' if options[:s]
+    Analyze.open(input, output, fix)
+  end
+
+  desc "convert  -p and -s", "creates prefix and suffix histogram"
+  option :p, :aliases => ['--name-prefix']
+  option :s, :aliases => ['--name-suffix']
+
+  def convert
+
+  end
+end
